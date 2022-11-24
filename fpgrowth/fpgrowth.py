@@ -64,9 +64,6 @@ def updateTree(item, node, headertb, freq):
         updateHeadertb(item, newnode, headertb)
     return node.child[item]
 
-[a, b] = getFromFile("tesco.csv")
-[c, d] = constructTree(a, b, 0.5)
-
 '''
 f,a,c,d,g,i,m,p
 a,b,c,f,l,m,o
