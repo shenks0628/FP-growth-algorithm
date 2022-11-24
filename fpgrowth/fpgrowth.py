@@ -64,6 +64,43 @@ def updateTree(item, node, headertb, freq):
         updateHeadertb(item, newnode, headertb)
     return node.child[item]
 
+def pull(node, prefix):
+    if node.parent != None:
+        prefix.append(node.num)
+        pull(node.parent, prefix)
+
+def findprefix(base, headertb):
+    node = headertb[base][1]
+    res = []
+    freq = []
+    while node != None:
+        prefix = []
+        pull(node, prefix)
+        if len(prefix) > 1:
+            res.append(prefix[1:])
+            freq.append(node.freq)
+        node = node.nxt
+    return res, freq
+
+def mine(headertb, minSup, prefix, freqItemList):
+    sortedItemList = [item[0] for item in sorted(list(headertb.items()), key = lambda p : p[1][0])] # sort by frequency
+    for item in sortedItemList:
+        newfreq = prefix.copy()
+        newfreq.add(item)
+        freqItemList.append(newfreq)
+        [conditionalBase, freq] = findprefix(item, headertb)
+        [conditionalTree, newheadertb] = constructTree(conditionalBase, freq, minSup)
+        if newheadertb != None:
+            mine(newheadertb, minSup, newfreq, freqItemList)
+
+# [a, b] = getFromFile("test.csv")
+# [c, d] = constructTree(a, b, 0.5)
+# c.display()
+# for i in d:
+#     print(i)
+#     for j in d[i]:
+#         print(j)
+
 '''
 f,a,c,d,g,i,m,p
 a,b,c,f,l,m,o
