@@ -1,6 +1,7 @@
 import csv
 import collections
 import itertools
+import optparse
 
 class Node:
     def __init__(self, num, freq, f):
@@ -92,6 +93,31 @@ def mine(headertb, minSup, prefix, freqItemList):
         [conditionalTree, newheadertb] = constructTree(conditionalBase, freq, minSup)
         if newheadertb != None:
             mine(newheadertb, minSup, newfreq, freqItemList)
+
+def powerset(s):
+    return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(1, len(s)))
+
+def support(testSet, itemSetList):
+    cnt = 0
+    for itemSet in itemSetList:
+        if (set(testSet).issubset(itemSet)):
+            cnt += 1
+    return cnt
+
+def associationRule(freqItemSet, itemSetList, minConf):
+    rules = []
+    for itemSet in freqItemSet:
+        subsets = powerset(itemSet)
+        supp = support(itemSet, itemSetList)
+        for s in subsets:
+            conf = float(supp / support(s, itemSetList))
+            if conf >= minConf:
+                rules.append([set(s), set(itemSet.difference(s)), conf])
+    return rules
+
+def getFreqfromList(itemSetList):
+    freq = [1 for i in range(len(itemSetList))]
+    return freq
 
 # [a, b] = getFromFile("test.csv")
 # [c, d] = constructTree(a, b, 0.5)
