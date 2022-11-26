@@ -4,10 +4,10 @@ import itertools
 import optparse
 
 class Node:
-    def __init__(self, num, freq, f):
+    def __init__(self, num, freq, fa):
         self.num = num
         self.freq = freq
-        self.f = f
+        self.fa = fa
         self.child = {}
         self.nxt = None
     def increment(self, freq):
@@ -66,9 +66,9 @@ def updateTree(item, node, headertb, freq):
     return node.child[item]
 
 def pull(node, prefix):
-    if node.parent != None:
+    if node.fa != None:
         prefix.append(node.num)
-        pull(node.parent, prefix)
+        pull(node.fa, prefix)
 
 def findprefix(base, headertb):
     node = headertb[base][1]
@@ -118,6 +118,29 @@ def associationRule(freqItemSet, itemSetList, minConf):
 def getFreqfromList(itemSetList):
     freq = [1 for i in range(len(itemSetList))]
     return freq
+
+def fpgrowth(name, minSup, minConf):
+    itemSetList, freq = getFromFile(name)
+    minSup = len(itemSetList) * minSup
+    fpTree, headertb = constructTree(itemSetList, freq, minSup)
+    if fpTree == None:
+        print("No frequent item set!")
+    else:
+        freqitems = []
+        mine(headertb, minSup, set(), freqitems)
+        rules = associationRule(freqitems, itemSetList, minConf)
+        return freqitems, rules
+
+if __name__ == "__main__":
+    parser = optparse.OptionParser()
+    parser.add_option('-f', '--inputFile', dest = 'inputFile', help = 'CSV filename', default = None)
+    parser.add_option('-s', '--minSupport', dest = 'minSup', help = 'Min support (float)', default = 0.5, type = 'float')
+    parser.add_option('-c', '--minConfidence', dest = 'minConf', help = 'Min confidence (float)', default = 0.5, type = 'float')
+    [test, args] = parser.parse_args()
+    freqitems, rules = fpgrowth(test.inputFile, test.minSup, test.minConf)
+    print(freqitems)
+    for i in rules:
+        print(i)
 
 # [a, b] = getFromFile("test.csv")
 # [c, d] = constructTree(a, b, 0.5)
