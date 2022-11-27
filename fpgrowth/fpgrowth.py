@@ -138,6 +138,8 @@ if __name__ == "__main__":
     parser.add_option('-c', '--minConfidence', dest = 'minConf', help = 'Min confidence (float)', default = 0.5, type = 'float')
     [test, args] = parser.parse_args()
     freqitems, rules = fpgrowth(test.inputFile, test.minSup, test.minConf)
+    # freqitems, rules = fpgrowth("test.csv", 0.5, 0.5)
+    # freqitems, rules = fpgrowth("mushroom.csv", 0.1, 0.8)
     # print(freqitems)
     cnt = [0, 0, 0, 0, 0]
     for i in freqitems:
