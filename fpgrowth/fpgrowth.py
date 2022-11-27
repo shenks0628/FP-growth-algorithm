@@ -138,9 +138,24 @@ if __name__ == "__main__":
     parser.add_option('-c', '--minConfidence', dest = 'minConf', help = 'Min confidence (float)', default = 0.5, type = 'float')
     [test, args] = parser.parse_args()
     freqitems, rules = fpgrowth(test.inputFile, test.minSup, test.minConf)
-    print(freqitems)
-    for i in rules:
+    # print(freqitems)
+    cnt = [0, 0, 0, 0, 0]
+    for i in freqitems:
+        if len(i) == 1:
+            cnt[0] += 1
+        elif len(i) == 2:
+            cnt[1] += 1
+        elif len(i) == 3:
+            cnt[2] += 1
+        elif len(i) == 4:
+            cnt[3] += 1
+        elif len(i) == 5:
+            cnt[4] += 1
+    for i in cnt:
         print(i)
+    print(len(rules))
+    # for i in rules:
+    #     print(i)
 
 # [a, b] = getFromFile("test.csv")
 # [c, d] = constructTree(a, b, 0.5)
