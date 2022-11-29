@@ -126,7 +126,7 @@ def mine(headertb, minSup, prefix, freqItemList, mp):
 #                 rules.append([set(s), set(itemSet.difference(s)), conf])
 #     return rules
 
-def associationRule(freqItems, mp, minConf):
+def associationRule(mp, minConf):
     rules = 0
     for items in mp:
         subsets = [i for n in range(1, len(items)) for i in itertools.combinations(items, n)]
@@ -136,9 +136,9 @@ def associationRule(freqItems, mp, minConf):
                 rules += 1
     return rules
 
-def getFreqfromList(itemSetList):
-    freq = [1 for i in range(len(itemSetList))]
-    return freq
+# def getFreqfromList(itemSetList):
+#     freq = [1 for i in range(len(itemSetList))]
+#     return freq
 
 def fpgrowth(name, minSup, minConf):
     itemSetList = getFromFile(name)
@@ -150,7 +150,7 @@ def fpgrowth(name, minSup, minConf):
         freqitems = []
         mp = {}
         mine(headertb, minSup, set(), freqitems, mp)
-        rules = associationRule(freqitems, mp, minConf)
+        rules = associationRule(mp, minConf)
         return freqitems, rules
 
 if __name__ == "__main__":
