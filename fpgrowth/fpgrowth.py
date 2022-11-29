@@ -105,6 +105,27 @@ def mine(headertb, minSup, prefix, freqItemList, mp):
             if newheadertb != None:
                 mine(newheadertb, minSup, newfreq, freqItemList, mp)
 
+# def powerset(s):
+#     return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(1, len(s)))
+
+# def support(testSet, itemSetList):
+#     cnt = 0
+#     for itemSet in itemSetList:
+#         if (set(testSet).issubset(itemSet)):
+#             cnt += 1
+#     return cnt
+
+# def associationRule(freqItemSet, itemSetList, minConf):
+#     rules = []
+#     for itemSet in freqItemSet:
+#         subsets = powerset(itemSet)
+#         supp = support(itemSet, itemSetList)
+#         for s in subsets:
+#             conf = float(supp / support(s, itemSetList))
+#             if conf >= minConf:
+#                 rules.append([set(s), set(itemSet.difference(s)), conf])
+#     return rules
+
 def associationRule(freqItems, mp, minConf):
     cnt = 0
     for freqItems in mp:
