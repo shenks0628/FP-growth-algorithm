@@ -127,14 +127,14 @@ def mine(headertb, minSup, prefix, freqItemList, mp):
 #     return rules
 
 def associationRule(freqItems, mp, minConf):
-    cnt = 0
+    rules = 0
     for items in mp:
         subsets = [i for n in range(1, len(items)) for i in itertools.combinations(items, n)]
         for subset in subsets:
             conf = mp[frozenset(items)] / mp[frozenset(subset)]
             if conf >= minConf:
-                cnt += 1
-    return cnt
+                rules += 1
+    return rules
 
 def getFreqfromList(itemSetList):
     freq = [1 for i in range(len(itemSetList))]
