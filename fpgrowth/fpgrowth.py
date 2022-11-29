@@ -104,7 +104,7 @@ def mine(headertb, minSup, prefix, freqItemList, mp):
             [conditionalTree, newheadertb] = constructTree(conditionalBase, minSup)
             if newheadertb != None:
                 mine(newheadertb, minSup, newfreq, freqItemList, mp)
-
+                
 # def powerset(s):
 #     return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(1, len(s)))
 
@@ -160,8 +160,8 @@ if __name__ == "__main__":
     # parser.add_option('-c', '--minConfidence', dest = 'minConf', help = 'Min confidence (float)', default = 0.5, type = 'float')
     # [test, args] = parser.parse_args()
     # freqitems, rules = fpgrowth(test.inputFile, test.minSup, test.minConf)
-    # freqitems, rules = fpgrowth("test.csv", 0.5, 0.5)
-    freqitems, rules = fpgrowth("mushroom.csv", 0.1, 0.8)
+    # freqitems, rules = fpgrowth("/content/drive/MyDrive/Colab Notebooks/test.csv", 0.5, 0.5)
+    freqitems, rules = fpgrowth("/content/drive/MyDrive/Colab Notebooks/mushroom.csv", 0.1, 0.8)
     # print(freqitems)
     cnt = [0, 0, 0, 0, 0]
     for i in freqitems:
@@ -175,8 +175,8 @@ if __name__ == "__main__":
             cnt[3] += 1
         elif len(i) == 5:
             cnt[4] += 1
-    for i in cnt:
-        print(i)
+    for i in range(0, 5):
+        print("|L^" + str(i + 1) + "|=" + str(cnt[i]))
     print(rules)
 
 # '''
