@@ -161,7 +161,10 @@ if __name__ == "__main__":
     # [test, args] = parser.parse_args()
     # freqitems, rules = fpgrowth(test.inputFile, test.minSup, test.minConf)
     # freqitems, rules = fpgrowth("test.csv", 0.5, 0.5)
+    start_time = time.time()
     freqitems, rules = fpgrowth("mushroom.csv", 0.1, 0.8)
+    end_time = time.time()
+    print("Total Execution Time: " + str(end_time - start_time) + " second(s).")
     # print(freqitems)
     cnt = [0, 0, 0, 0, 0]
     for i in freqitems:
@@ -175,8 +178,10 @@ if __name__ == "__main__":
             cnt[3] += 1
         elif len(i) == 5:
             cnt[4] += 1
+    print("Frequent Item Set(size from 1 to 5): ")
     for i in range(0, 5):
         print("|L^" + str(i + 1) + "|=" + str(cnt[i]))
+    print("Number of association rules that have confidence not less than the minimum confidence: ")
     print(rules)
 
 # '''
