@@ -179,7 +179,7 @@ if __name__ == "__main__":
             cnt[3] += 1
         elif len(i) == 5:
             cnt[4] += 1
-    print("Frequent Item Set(size from 1 to 5): ")
+    print("Frequent Item Sets(size from 1 to 5): ")
     for i in range(0, 5):
         print("|L^" + str(i + 1) + "|=" + str(cnt[i]))
     print("Number of association rules that have confidence not less than the minimum confidence: ")
