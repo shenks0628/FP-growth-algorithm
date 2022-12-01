@@ -2,6 +2,7 @@ import csv
 import collections
 import itertools
 import optparse
+import time
 
 class Node:
     def __init__(self, num, freq, fa):
