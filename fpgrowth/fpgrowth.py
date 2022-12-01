@@ -36,7 +36,7 @@ def constructTree(itemSetList, minSup):
         for item in itemSet:
             headertb[item] = headertb.get(item, 0) + itemSetList[itemSet]
     for i in list(headertb.keys()):
-        if headertb[i] < minSup:
+        if headertb[i] < minSup: # remove elements that are less than the minimum support
             del(headertb[i])
     if (len(headertb) == 0):
         return None, None
@@ -47,11 +47,11 @@ def constructTree(itemSetList, minSup):
     for itemSet, cnt in itemSetList.items():
         itemx = {}
         for item in itemSet:
-            if item in freqItemSet:
+            if item in freqItemSet: # filtering
                 itemx.update({item: headertb[item][0]})
         if len(itemx) > 0:
-            items = [i[0] for i in sorted(itemx.items(), key = lambda p:(p[1], str(p[0])), reverse = True)]
-            updateTree(items, fpTree, headertb, cnt)
+            items = [i[0] for i in sorted(itemx.items(), key = lambda p:(p[1], str(p[0])), reverse = True)] # sorting, by descending order
+            updateTree(items, fpTree, headertb, cnt) # update the tree with the items after filtering and sorting
     return fpTree, headertb
 
 def updateHeadertb(item, node):
@@ -60,10 +60,10 @@ def updateHeadertb(item, node):
     item.nxt = node
 
 def updateTree(items, node, headertb, freq):
-    if items[0] in node.child:
+    if items[0] in node.child: # check if the first element in items is a child node or not
         node.child[items[0]].increment(freq)
     else:
-        node.child[items[0]] = Node(items[0], freq, node)
+        node.child[items[0]] = Node(items[0], freq, node) # create a new branch
         if headertb[items[0]][1] == None:
             headertb[items[0]][1] = node.child[items[0]]
         else:
@@ -77,7 +77,7 @@ def pull(node, prefix):
         pull(node.fa, prefix)
 
 def findprefix(base, headertb):
-    node = headertb[base][1]
+    node = headertb[base][1] # the first node of base in the tree
     res = {}
     freq = []
     while node != None:
@@ -94,14 +94,14 @@ def mine(headertb, minSup, prefix, freqItemList, mp):
     for item in sortedItemList:
         newfreq = prefix.copy()
         newfreq.add(item)
-        if len(newfreq) <= 5:
+        if len(newfreq) <= 5: # only deal with the frequency set which has a length that is not greater than 5
             newfreq = set(sorted(list(newfreq)))
             freqItemList.append(newfreq)
             [conditionalBase, freq] = findprefix(item, headertb)
             sum = 0
             for i in conditionalBase.values():
                 sum += i
-            mp.update({frozenset(newfreq): sum})
+            mp.update({frozenset(newfreq): sum}) # store the frequency set in a dictionary, with {key: value} = {the set: it's occurence}
             [conditionalTree, newheadertb] = constructTree(conditionalBase, minSup)
             if newheadertb != None:
                 mine(newheadertb, minSup, newfreq, freqItemList, mp)
@@ -130,7 +130,7 @@ def mine(headertb, minSup, prefix, freqItemList, mp):
 def associationRule(mp, minConf):
     rules = 0
     for items in mp:
-        subsets = [i for n in range(1, len(items)) for i in itertools.combinations(items, n)]
+        subsets = [i for n in range(1, len(items)) for i in itertools.combinations(items, n)] # generate all subsets
         for subset in subsets:
             conf = mp[frozenset(items)] / mp[frozenset(subset)]
             if conf >= minConf:
